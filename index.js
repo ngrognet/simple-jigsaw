@@ -35,6 +35,71 @@ function initializeGame(image) {
   canvas.addEventListener("mouseup", handleMouseUp)
 
   drawBoard(ctx, puzzle)
+  drawJigsawShape([0,1,-1,1])
+}
+
+function drawJigsawShape(shape) {
+  let pen = { x: 100, y: 100 }
+  const step = 20
+  const bezelBase = 15
+  const bezelTop = bezelBase * shape[0]
+  const bezelRight = bezelBase * shape[1]
+  const bezelBottom = bezelBase * shape[2]
+  const bezelLeft = bezelBase * shape[3]
+  ctx.strokeStyle = 'red'
+  ctx.beginPath()
+  ctx.moveTo(pen.x, pen.y)
+
+  // top side
+  pen.x += step
+  ctx.lineTo(pen.x, pen.y)
+  pen.y -= bezelTop
+  ctx.lineTo(pen.x, pen.y)
+  pen.x += step
+  ctx.lineTo(pen.x, pen.y)
+  pen.y += bezelTop
+  ctx.lineTo(pen.x, pen.y)
+  pen.x += step
+  ctx.lineTo(pen.x, pen.y)
+
+  // right side
+  pen.y += step
+  ctx.lineTo(pen.x, pen.y)
+  pen.x += bezelRight
+  ctx.lineTo(pen.x, pen.y)
+  pen.y += step
+  ctx.lineTo(pen.x, pen.y)
+  pen.x -= bezelRight
+  ctx.lineTo(pen.x, pen.y)
+  pen.y += step
+  ctx.lineTo(pen.x, pen.y)
+
+  // bottom side
+  pen.x -= step
+  ctx.lineTo(pen.x, pen.y)
+  pen.y += bezelBottom
+  ctx.lineTo(pen.x, pen.y)
+  pen.x -= step
+  ctx.lineTo(pen.x, pen.y)
+  pen.y -= bezelBottom
+  ctx.lineTo(pen.x, pen.y)
+  pen.x -= step
+  ctx.lineTo(pen.x, pen.y)
+
+  // left side
+  pen.y -= step
+  ctx.lineTo(pen.x, pen.y)
+  pen.x -= bezelLeft
+  ctx.lineTo(pen.x, pen.y)
+  pen.y -= step
+  ctx.lineTo(pen.x, pen.y)
+  pen.x += bezelLeft
+  ctx.lineTo(pen.x, pen.y)
+  pen.y -= step
+  ctx.lineTo(pen.x, pen.y)
+
+  ctx.closePath()
+  ctx.stroke()
 }
 
 function drawBoard() {
