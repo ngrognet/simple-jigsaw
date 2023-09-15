@@ -28,11 +28,11 @@ export default class Piece {
     ctx.save()
 
     // trace the shape outline
-    const bezelDepth = this.dWidth * (2 / 9)
-    const bezelTop = bezelDepth * this.shape[0]
-    const bezelRight = bezelDepth * this.shape[1]
-    const bezelBottom = bezelDepth * this.shape[2]
-    const bezelLeft = bezelDepth * this.shape[3]
+    const hookDepth = this.dWidth * (2 / 9)
+    const hookTop = hookDepth * this.shape[0]
+    const hookRight = hookDepth * this.shape[1]
+    const hookBottom = hookDepth * this.shape[2]
+    const hookLeft = hookDepth * this.shape[3]
 
     ctx.beginPath()
     let pen = { x: this.dx, y: this.dy }
@@ -40,43 +40,43 @@ export default class Piece {
 
     // top side
     this.#traceLine(ctx, pen, this.dWidth / 3, 0)
-    this.#traceLine(ctx, pen, 0, -bezelTop)
+    this.#traceLine(ctx, pen, 0, -hookTop)
     this.#traceLine(ctx, pen, this.dWidth / 3, 0)
-    this.#traceLine(ctx, pen, 0, bezelTop)
+    this.#traceLine(ctx, pen, 0, hookTop)
     this.#traceLine(ctx, pen, this.dWidth / 3, 0)
 
     // right side
     this.#traceLine(ctx, pen, 0, this.dWidth / 3)
-    this.#traceLine(ctx, pen, bezelRight, 0)
+    this.#traceLine(ctx, pen, hookRight, 0)
     this.#traceLine(ctx, pen, 0, this.dWidth / 3)
-    this.#traceLine(ctx, pen, -bezelRight, 0)
+    this.#traceLine(ctx, pen, -hookRight, 0)
     this.#traceLine(ctx, pen, 0, this.dWidth / 3)
 
     // bottom side
     this.#traceLine(ctx, pen, -this.dWidth / 3, 0)
-    this.#traceLine(ctx, pen, 0, bezelBottom)
+    this.#traceLine(ctx, pen, 0, hookBottom)
     this.#traceLine(ctx, pen, -this.dWidth / 3, 0)
-    this.#traceLine(ctx, pen, 0, -bezelBottom)
+    this.#traceLine(ctx, pen, 0, -hookBottom)
     this.#traceLine(ctx, pen, -this.dWidth / 3, 0)
 
     // left side
     this.#traceLine(ctx, pen, 0, -this.dWidth / 3)
-    this.#traceLine(ctx, pen, -bezelLeft, 0)
+    this.#traceLine(ctx, pen, -hookLeft, 0)
     this.#traceLine(ctx, pen, 0, -this.dWidth / 3)
-    this.#traceLine(ctx, pen, bezelLeft, 0)
+    this.#traceLine(ctx, pen, hookLeft, 0)
     this.#traceLine(ctx, pen, 0, -this.dWidth / 3)
 
     // draw the image in the outline
     ctx.clip()
     ctx.drawImage(image,
-      this.sx - bezelDepth,
-      this.sy - bezelDepth,
-      this.sWidth + (2 * bezelDepth),
-      this.sHeight + (2 * bezelDepth),
-      this.dx - bezelDepth,
-      this.dy - bezelDepth,
-      this.dWidth + (2 * bezelDepth),
-      this.dHeight + (2 * bezelDepth)
+      this.sx - hookDepth,
+      this.sy - hookDepth,
+      this.sWidth + (2 * hookDepth),
+      this.sHeight + (2 * hookDepth),
+      this.dx - hookDepth,
+      this.dy - hookDepth,
+      this.dWidth + (2 * hookDepth),
+      this.dHeight + (2 * hookDepth)
     )
 
     // draw the outline
