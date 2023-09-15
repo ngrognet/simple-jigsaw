@@ -20,17 +20,77 @@ export default class Piece {
     // cluster offset
     this.clusterOffsetX = 0
     this.clusterOffsetY = 0
+
+    this.shape = args.shape
   }
 
   draw(ctx, image, moving) {
-    ctx.drawImage(image, this.sx, this.sy, this.sWidth, this.sHeight, this.dx, this.dy, this.dWidth, this.dHeight)
-    if (moving) {
-      ctx.strokeStyle = 'white'
-    } else {
-      ctx.strokeStyle = 'black'
-    }
+    ctx.save()
+
+    // trace the shape outline
+    const bezelDepth = this.dWidth * (2 / 9)
+    const bezelTop = bezelDepth * this.shape[0]
+    const bezelRight = bezelDepth * this.shape[1]
+    const bezelBottom = bezelDepth * this.shape[2]
+    const bezelLeft = bezelDepth * this.shape[3]
+
+    ctx.beginPath()
+    let pen = { x: this.dx, y: this.dy }
+    ctx.moveTo(pen.x, pen.y)
+
+    // top side
+    this.#traceLine(ctx, pen, this.dWidth / 3, 0)
+    this.#traceLine(ctx, pen, 0, -bezelTop)
+    this.#traceLine(ctx, pen, this.dWidth / 3, 0)
+    this.#traceLine(ctx, pen, 0, bezelTop)
+    this.#traceLine(ctx, pen, this.dWidth / 3, 0)
+
+    // right side
+    this.#traceLine(ctx, pen, 0, this.dWidth / 3)
+    this.#traceLine(ctx, pen, bezelRight, 0)
+    this.#traceLine(ctx, pen, 0, this.dWidth / 3)
+    this.#traceLine(ctx, pen, -bezelRight, 0)
+    this.#traceLine(ctx, pen, 0, this.dWidth / 3)
+
+    // bottom side
+    this.#traceLine(ctx, pen, -this.dWidth / 3, 0)
+    this.#traceLine(ctx, pen, 0, bezelBottom)
+    this.#traceLine(ctx, pen, -this.dWidth / 3, 0)
+    this.#traceLine(ctx, pen, 0, -bezelBottom)
+    this.#traceLine(ctx, pen, -this.dWidth / 3, 0)
+
+    // left side
+    this.#traceLine(ctx, pen, 0, -this.dWidth / 3)
+    this.#traceLine(ctx, pen, -bezelLeft, 0)
+    this.#traceLine(ctx, pen, 0, -this.dWidth / 3)
+    this.#traceLine(ctx, pen, bezelLeft, 0)
+    this.#traceLine(ctx, pen, 0, -this.dWidth / 3)
+
+    // draw the image in the outline
+    ctx.clip()
+    ctx.drawImage(image,
+      this.sx - bezelDepth,
+      this.sy - bezelDepth,
+      this.sWidth + (2 * bezelDepth),
+      this.sHeight + (2 * bezelDepth),
+      this.dx - bezelDepth,
+      this.dy - bezelDepth,
+      this.dWidth + (2 * bezelDepth),
+      this.dHeight + (2 * bezelDepth)
+    )
+
+    // draw the outline
+    ctx.closePath()
+    moving ? ctx.strokeStyle = 'white' : ctx.strokeStyle = 'black'
     ctx.lineWidth = 2
-    ctx.strokeRect(this.dx, this.dy, this.dWidth, this.dHeight)
+    ctx.stroke()
+    ctx.restore()
+  }
+
+  #traceLine(ctx, pen, dx, dy) {
+    pen.x += dx
+    pen.y += dy
+    ctx.lineTo(pen.x, pen.y)
   }
 
   bounds() {
