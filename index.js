@@ -24,17 +24,16 @@ function initializeGame(image) {
     image: image,
     widthPixels: image.width,
     heightPixels: image.height,
-    widthPieces: 4,
-    heightPieces: 4
+    widthPieces: 5,
+    heightPieces: 5
   })
-  drawBoard(ctx, puzzle)
   puzzle.initialize(canvas)
+  clearCanvas()
+  puzzle.draw(ctx)
 
   canvas.addEventListener("mousedown", handleMouseDown)
   canvas.addEventListener("mousemove", handleMouseMove)
   canvas.addEventListener("mouseup", handleMouseUp)
-
-  drawBoard(ctx, puzzle)
 }
 
 function drawBoard() {
