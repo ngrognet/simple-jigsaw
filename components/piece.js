@@ -28,55 +28,52 @@ export default class Piece {
     ctx.save()
 
     // trace the shape outline
-    const hookDepth = this.dWidth * (2 / 9)
-    const hookTop = hookDepth * this.shape[0]
-    const hookRight = hookDepth * this.shape[1]
-    const hookBottom = hookDepth * this.shape[2]
-    const hookLeft = hookDepth * this.shape[3]
+    const hookLength = this.dWidth * 0.25
+    const hookThickness = this.dWidth * 0.3
 
     ctx.beginPath()
     let pen = { x: this.dx, y: this.dy }
     ctx.moveTo(pen.x, pen.y)
 
     // top side
-    this.#traceLine(ctx, pen, this.dWidth / 3, 0)
-    this.#traceLine(ctx, pen, 0, -hookTop)
-    this.#traceLine(ctx, pen, this.dWidth / 3, 0)
-    this.#traceLine(ctx, pen, 0, hookTop)
-    this.#traceLine(ctx, pen, this.dWidth / 3, 0)
+    this.#traceLine(ctx, pen, (this.dWidth - hookThickness) / 2, 0)
+    this.#traceLine(ctx, pen, 0, -hookLength * this.shape[0])
+    this.#traceLine(ctx, pen, hookThickness, 0)
+    this.#traceLine(ctx, pen, 0, hookLength * this.shape[0])
+    this.#traceLine(ctx, pen, (this.dWidth - hookThickness) / 2, 0)
 
     // right side
-    this.#traceLine(ctx, pen, 0, this.dWidth / 3)
-    this.#traceLine(ctx, pen, hookRight, 0)
-    this.#traceLine(ctx, pen, 0, this.dWidth / 3)
-    this.#traceLine(ctx, pen, -hookRight, 0)
-    this.#traceLine(ctx, pen, 0, this.dWidth / 3)
+    this.#traceLine(ctx, pen, 0, (this.dHeight - hookThickness) / 2)
+    this.#traceLine(ctx, pen, hookLength * this.shape[1], 0)
+    this.#traceLine(ctx, pen, 0, hookThickness)
+    this.#traceLine(ctx, pen, -hookLength * this.shape[1], 0)
+    this.#traceLine(ctx, pen, 0, (this.dHeight - hookThickness) / 2)
 
     // bottom side
-    this.#traceLine(ctx, pen, -this.dWidth / 3, 0)
-    this.#traceLine(ctx, pen, 0, hookBottom)
-    this.#traceLine(ctx, pen, -this.dWidth / 3, 0)
-    this.#traceLine(ctx, pen, 0, -hookBottom)
-    this.#traceLine(ctx, pen, -this.dWidth / 3, 0)
+    this.#traceLine(ctx, pen, -(this.dWidth - hookThickness) / 2, 0)
+    this.#traceLine(ctx, pen, 0, hookLength * this.shape[2])
+    this.#traceLine(ctx, pen, -hookThickness, 0)
+    this.#traceLine(ctx, pen, 0, -hookLength * this.shape[2])
+    this.#traceLine(ctx, pen, -(this.dWidth - hookThickness) / 2, 0)
 
     // left side
-    this.#traceLine(ctx, pen, 0, -this.dWidth / 3)
-    this.#traceLine(ctx, pen, -hookLeft, 0)
-    this.#traceLine(ctx, pen, 0, -this.dWidth / 3)
-    this.#traceLine(ctx, pen, hookLeft, 0)
-    this.#traceLine(ctx, pen, 0, -this.dWidth / 3)
+    this.#traceLine(ctx, pen, 0, -(this.dHeight - hookThickness) / 2)
+    this.#traceLine(ctx, pen, -hookLength * this.shape[3], 0)
+    this.#traceLine(ctx, pen, 0, -hookThickness)
+    this.#traceLine(ctx, pen, hookLength * this.shape[3], 0)
+    this.#traceLine(ctx, pen, 0, -(this.dHeight - hookThickness) / 2)
 
     // draw the image in the outline
     ctx.clip()
     ctx.drawImage(image,
-      this.sx - hookDepth,
-      this.sy - hookDepth,
-      this.sWidth + (2 * hookDepth),
-      this.sHeight + (2 * hookDepth),
-      this.dx - hookDepth,
-      this.dy - hookDepth,
-      this.dWidth + (2 * hookDepth),
-      this.dHeight + (2 * hookDepth)
+      this.sx - hookLength,
+      this.sy - hookLength,
+      this.sWidth + (2 * hookLength),
+      this.sHeight + (2 * hookLength),
+      this.dx - hookLength,
+      this.dy - hookLength,
+      this.dWidth + (2 * hookLength),
+      this.dHeight + (2 * hookLength)
     )
 
     // draw the outline
